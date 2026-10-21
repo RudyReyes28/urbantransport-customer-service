@@ -1,5 +1,6 @@
 package com.urbantransport.customer.service;
 
+import com.urbantransport.customer.dto.CreateCustomerRequest;
 import com.urbantransport.customer.dto.CustomerResponse;
 import com.urbantransport.customer.dto.CustomerSummaryResponse;
 import com.urbantransport.customer.dto.UpdateProfileRequest;
@@ -13,4 +14,6 @@ public interface CustomerService {
     CustomerResponse updateProfile(UUID customerId, UpdateProfileRequest request);
 
     CustomerSummaryResponse findSummaryByNit(String nit);
+
+    CustomerSummaryResponse createWithoutAccount(CreateCustomerRequest request);
 }

@@ -1,6 +1,7 @@
 package com.urbantransport.customer.service.impl;
 
 import com.urbantransport.customer.domain.CustomerEntity;
+import com.urbantransport.customer.dto.CreateCustomerRequest;
 import com.urbantransport.customer.event.CustomerNitChangedPayload;
 import com.urbantransport.customer.event.EventTypes;
 import com.urbantransport.customer.exception.ApiException;
@@ -67,6 +68,30 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findByNit(NitUtils.normalize(nit))
                 .map(CustomerSummaryResponse::fromEntity)
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "No existe un cliente con ese NIT"));
+    }
+
+    @Override
+    @Transactional
+    public CustomerSummaryResponse createWithoutAccount(CreateCustomerRequest request) {
+        String nit = NitUtils.normalize(request.nit());
+        if (customerRepository.existsByNit(nit)) {
+            throw new ApiException(HttpStatus.CONFLICT, "Ya existe un cliente con ese NIT");
+        }
+        if (!NitUtils.isValid(nit)) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "El NIT no tiene un formato válido");
+        }
+        if (request.dpi() != null && customerRepository.existsByDpi(request.dpi())) {
+            throw new ApiException(HttpStatus.CONFLICT, "Ese DPI ya está registrado con otro NIT");
+        }
+
+        CustomerEntity saved = customerRepository.save(CustomerEntity.builder()
+                .nit(nit)
+                .dpi(request.dpi())
+                .fullName(request.fullName().trim())
+                .phone(request.phone())
+                .address(request.address() == null ? null : request.address().trim())
+                .build());
+        return CustomerSummaryResponse.fromEntity(saved);
     }
 
     private CustomerEntity getOrThrow(UUID customerId) {

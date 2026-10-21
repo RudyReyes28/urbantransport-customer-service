@@ -43,4 +43,11 @@ public class CustomerController {
     public CustomerSummaryResponse findByNit(@PathVariable String nit) {
         return customerService.findSummaryByNit(nit);
     }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','BRANCH_ADMIN','CASHIER')")
+    public CustomerSummaryResponse create(@Valid @RequestBody CreateCustomerRequest request) {
+        return customerService.createWithoutAccount(request);
+    }
 }
