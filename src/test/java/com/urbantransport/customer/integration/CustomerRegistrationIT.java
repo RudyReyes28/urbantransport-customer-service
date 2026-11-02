@@ -36,7 +36,7 @@ class CustomerRegistrationIT extends AbstractCustomerIT {
         assertThat((String) read(sent, "$.customerId")).isEqualTo(customerId.toString());
         assertThat((String) read(sent, "$.nit")).isEqualTo("12345678");
         assertThat((String) read(sent, "$.email")).isEqualTo("ana@mail.com");
-        assertThat((String) read(sent, "$.password")).isEqualTo("Password123");
+        assertThat(sent).doesNotContain("password");
     }
 */
     @Test
@@ -158,11 +158,11 @@ class CustomerRegistrationIT extends AbstractCustomerIT {
     @Test
     @DisplayName("validación de campos y NIT inválido -> 400 y no se toca ni la base ni identity")
     void validation() throws Exception {
-        Map<String, Object> invalid = Map.of("email", "no-es-correo", "password", "corta", "fullName", " ",
+        Map<String, Object> invalid = Map.of("email", "no-es-correo", "fullName", " ",
                 "nit", "12345678", "dpi", "123", "phone", "12", "address", "");
         String response = responseBody(send(post("/customers/register"), null, invalid).andExpect(status().isBadRequest()));
         assertThat((String) read(response, "$.message"))
-                .contains("email").contains("password").contains("fullName").contains("dpi").contains("phone").contains("address");
+                .contains("email").contains("fullName").contains("dpi").contains("phone").contains("address");
 
         send(post("/customers/register"), null, registerBody("ABC", dpi(1), "ana@it.test"))
                 .andExpect(status().isBadRequest())

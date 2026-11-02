@@ -56,7 +56,7 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
         IdentityUserResponse account;
         try {
             account = identityClient.createCustomerUser(new IdentityCreateUserRequest(
-                    email, request.password(), request.fullName().trim(), prepared.customerId(), nit));
+                    email, request.fullName().trim(), prepared.customerId(), nit));
         } catch (RuntimeException exception) {
             if (prepared.created()) {
                 transactionTemplate.executeWithoutResult(status -> customerRepository.deleteById(prepared.customerId()));
