@@ -88,7 +88,7 @@ class CustomerRegistrationServiceImplTest {
         ArgumentCaptor<IdentityCreateUserRequest> account = ArgumentCaptor.forClass(IdentityCreateUserRequest.class);
         verify(identityClient).createCustomerUser(account.capture());
         assertThat(account.getValue()).isEqualTo(new IdentityCreateUserRequest(
-                "ana@mail.com", "Password123", "Ana Pérez", customerId, "12345678"));
+                "ana@mail.com", "Ana Pérez", customerId, "12345678"));
         // Paso 3: enlace y cartera
         assertThat(stored.getUserId()).isEqualTo(userId);
         ArgumentCaptor<WalletEntity> wallet = ArgumentCaptor.forClass(WalletEntity.class);
@@ -256,7 +256,7 @@ class CustomerRegistrationServiceImplTest {
     // ------------------------------------------------------------------ helpers
 
     private RegisterCustomerRequest request(String nit, String dpi) {
-        return new RegisterCustomerRequest("  Ana@Mail.COM ", "Password123", "  Ana Pérez ", nit, dpi,
+        return new RegisterCustomerRequest("  Ana@Mail.COM ", "  Ana Pérez ", nit, dpi,
                 "55512345", "  Zona 1  ");
     }
 
