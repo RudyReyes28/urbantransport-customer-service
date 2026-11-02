@@ -256,7 +256,7 @@ class IdentityClientImplTest {
     }
 
     private IdentityCreateUserRequest request() {
-        return new IdentityCreateUserRequest("ana@mail.com", "Password123", "Ana Pérez", customerId, "12345678");
+        return new IdentityCreateUserRequest("ana@mail.com", "Ana Pérez", customerId, "12345678");
     }
 
     private String accountJson() {

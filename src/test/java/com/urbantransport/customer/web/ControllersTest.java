@@ -54,7 +54,7 @@ class ControllersTest {
     @DisplayName("CustomerController delega en los servicios usando el customerId del token")
     void customerController() {
         CustomerController controller = new CustomerController(registrationService, customerService);
-        RegisterCustomerRequest register = new RegisterCustomerRequest("a@b.com", "Password123", "Ana", "12345678",
+        RegisterCustomerRequest register = new RegisterCustomerRequest("a@b.com", "Ana", "12345678",
                 "1234567890123", "55512345", "Zona 1");
         UpdateProfileRequest update = new UpdateProfileRequest("Ana", "12345678", "1234567890123", "55512345", "Zona 1");
         CreateCustomerRequest create = new CreateCustomerRequest("12345678", "Ana", null, null, null);

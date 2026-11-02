@@ -158,7 +158,7 @@ public abstract class AbstractCustomerIT {
     }
 
     protected static Map<String, Object> registerBody(String nit, String dpi, String email) {
-        return Map.of("email", email, "password", "Password123", "fullName", "Ana Pérez", "nit", nit,
+        return Map.of("email", email, "fullName", "Ana Pérez", "nit", nit,
                 "dpi", dpi, "phone", "55512345", "address", "Zona 1");
     }
 
